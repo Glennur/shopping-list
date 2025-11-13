@@ -5,34 +5,58 @@ namespace ShoppingList.Application.Services;
 
 public class ShoppingListService : IShoppingListService
 {
-    private ShoppingItem[] _items;
     private int _nextIndex;
+    private ShoppingItem[] _items = new ShoppingItem[5];
 
     public ShoppingListService()
     {
         // Initialize with demo data for UI demonstration
         // TODO: Students can remove or comment this out when running unit tests
-        _items = GenerateDemoItems();
-        _nextIndex = 4; // We have 4 demo items initialized
+        
+        //_items = GenerateDemoItems();
+        _nextIndex = 0; // We have 4 demo items initialized
     }
 
     public IReadOnlyList<ShoppingItem> GetAll()
     {
+        var list = new List<ShoppingItem>();
+        for (int i = 0; i < _nextIndex; i++)
+        {
+            list.Add(_items[i]);
+        }
         // TODO: Students - Return all items from the array (up to _nextIndex)
-        return [];
+        return list;
     }
 
     public ShoppingItem? GetById(string id)
     {
+        var item = _items.FirstOrDefault(x => x.Id == id);
+        if (item == null)
+        {
+            return null;
+        }
+        return item;
         // TODO: Students - Find and return the item with the matching id
-        return null;
     }
 
     public ShoppingItem? Add(string name, int quantity, string? notes)
     {
+        var item = new ShoppingItem();
+        item.Name = name;
+        item.Quantity = quantity;
+        if (_nextIndex >= _items.Length)
+        {
+            Array.Resize(ref  _items, _items.Length * 2);
+        }
+        item.Notes = notes;
+        _items[_nextIndex] = item;
+        _nextIndex++;
+        
+            
         // TODO: Students - Implement this method
+        
         // Return the created item
-        return null;
+        return item;
     }
 
     public ShoppingItem? Update(string id, string name, int quantity, string? notes)
@@ -85,6 +109,8 @@ public class ShoppingListService : IShoppingListService
         // 5. Return true if successful, false otherwise
         return false;
     }
+    
+    
 
     private ShoppingItem[] GenerateDemoItems()
     {
@@ -92,7 +118,7 @@ public class ShoppingListService : IShoppingListService
         items[0] = new ShoppingItem
         {
             Id = Guid.NewGuid().ToString(),
-            Name = "Dishwasher tablets",
+            Name = "Dishwasher tablets",    
             Quantity = 1,
             Notes = "80st/pack - Rea",
             IsPurchased = false
