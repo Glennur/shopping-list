@@ -16,17 +16,20 @@ jobs:
     steps: 
       - name: Setup .NET
         uses: actions/setup-dotnet@v5.0.0
+        
         with: 
           dotnet-version: ${{ matrix.version }}
+          
+      - name: checkout
+        uses: actions/checkout@v5
 
-      - name: Print matrix values
+      - name: Print matrix values        
         run: |
           echo "Running on OS: ${{ matrix.os }}"
           echo "Using .NET version ${{ matrix.version }}"
           
       - name: Build Solution
-        run: dotnet build ShoppingList.sln
+        run: dotnet build
 
 
-      - name: Running test
-        run: 
+
