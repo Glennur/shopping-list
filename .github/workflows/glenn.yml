@@ -1,7 +1,10 @@
 name: Glenns Workflow
 
 on:    
+  workflow_dispatch:
   push:
+  pull_request:
+  
     branches:
       - main
 
@@ -34,5 +37,20 @@ jobs:
       - name: Run tests
         run: dotnet test
 
+      - name: Message when push
+        if: github.event_name == 'push'
+        run: |
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+            
+      
+      - name: Message when pull request
+        if: github.event_name == 'pull_request'
+        run: echo "Detta är en pull request!"
+      
+      - name: Message when manual start
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Manuell start!"
+
+        
 
 
