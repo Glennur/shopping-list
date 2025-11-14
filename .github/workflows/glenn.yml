@@ -1,28 +1,52 @@
 name: Glenns Workflow
 
 on:    
+  workflow_dispatch:
   push:
+  pull_request:
+  
     branches:
       - main
 
 jobs:
-    build:
-        runs-on: ${{ matrix.os }}
-        strategy:
-            matrix:
-                os: [ubuntu-latest, windows-latest]
-                version: [9.0, 8.0]
-        steps: 
-        - name: Setup .NET
-            uses: actions/setup-dotnet@v5.0.0
-            with: 
-            dotnet-version: ${{ matrix.version }}
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        version: [9.0, 8.0]
 
-        - name: Build Solution
-            run: dotnet build CleanCodDevOps.sln
+    steps: 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.0.0
+        
+        with: 
+          dotnet-version: ${{ matrix.version }}
+          
+      - name: checkout
+        uses: actions/checkout@v5
 
-        - name: Print matrix values
-            run: |
-            echo "Running on OS: ${{ matrix.os }}"
-            echo "Using .NET version ${{ matrix.version }}"
+      - name: Print matrix values        
+        run: |
+          echo "Running on OS: ${{ matrix.os }}"
+          echo "Using .NET version ${{ matrix.version }}"
+          
+      - name: Build Solution
+        run: dotnet build
 
+      - name: Run tests
+        run: dotnet test
+
+      - name: Message when push
+        if: github.event_name == 'push'
+        run: |
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+            
+      
+      - name: Message when pull request
+        if: github.event_name == 'pull_request'
+        run: echo "Detta är en pull request!"
+      
+      - name: Message when manual start
+        if: github.event_name == 'workflow_dispatch'
+        run: echo "Manuell start!"

@@ -1,0 +1,58 @@
+name: Workflow
+
+on:                      #Definierar en trigger
+  workflow_dispatch:     #Startar workflowet manuellt
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  conditional-job:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Print GitHub Context
+        run: echo "${{ toJSON(github) }}"
+
+      - name: Print Runner Context
+        run: echo "${{ toJSON(runner) }}"
+
+      - name: Runs only if previous step succeeded
+        if: success()                                #Kollar om föregående steg går igenom
+        run: echo $"Previuos step succeeded"         #Ifall steget går igenom
+
+
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix: 
+        os: [ubuntu-latest, windows-latest]
+        version: [7.0, 8.0]
+
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.0.0          #Hämta verktyg från marketplace
+        with:                                       #Med vilken version? Med de vi nämnde i vår matrix
+          dotnet-version: ${{ matrix.version }}      #Förbereder dotnet för båda versionern
+
+      - name: Checkout
+        uses: actions/checkout@v5
+    
+      - name: Build Solution
+        run: dotnet build
+
+      - name: Runs only if previos step fails            #Körs bara om föregående test går igenom. Alltså att bygga programmet
+        if: failure()
+        run: echo "Preciuos step fails, therefore i run"
+   
+      - name: Build Test
+        run: dotnet test  
+
+      - name: PR Message
+        if: github.event_name == 'push'
+        run: |
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+          echo "Author: ${{ github.event.head_commit.author.name }}"
+
+
+
