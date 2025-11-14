@@ -13,7 +13,7 @@ jobs:
     steps: 
       - name: Print GitHub Context
         run: echo "${{ toJSON(github) }}"
-        
+
       - name: Print Runner Context
         run: echo "${{ toJSON(runner) }}"
 
@@ -40,11 +40,19 @@ jobs:
     
       - name: Build Solution
         run: dotnet build
-   
-      - name: Build Test
-        run: dotnet test
 
-      - name: Runs only if previos step fails
+      - name: Runs only if previos step fails            #Körs bara om föregående test går igenom. Alltså att bygga programmet
         if: failure()
         run: echo "Preciuos step fails, therefore i run"
+   
+      - name: Build Test
+        run: dotnet test  
+
+      - name: PR Message
+        if: github.event_name == 'push'
+        run: |
+          echo "Commit message: ${{ github.event.head_commit.message }}"
+          echo "Author: ${{ github.event.head_commit.author.name }}"
+
+
 
