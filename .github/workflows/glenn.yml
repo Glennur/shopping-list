@@ -10,7 +10,7 @@ on:
 
 jobs:
   job_info:
-    runs-on: ubunti-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Message when push
         if: github.event_name == 'push'
