@@ -34,6 +34,9 @@ jobs:
         with:                                       #Med vilken version? Med de vi nämnde i vår matrix
           dotnet-version: ${{ matrix.version }}      #Förbereder dotnet för båda versionern
 
+      - name: Checkout
+        uses: actions/checkout@v5
+    
       - name: Build Solution
         run: dotnet build
    
