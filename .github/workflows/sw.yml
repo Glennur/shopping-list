@@ -1,0 +1,17 @@
+name: Workflow
+
+on:                      #Definierar en trigger
+  workflow_dispatch:     #Startar workflowet manuellt
+  push:
+    branches:
+      - main
+
+jobs:
+  conditional-job:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Print GitHub Context
+        run: echo "${{ toJSON(github) }}"
+        
+      - name: Print Runner Context
+        run: echo "${{ toJSON(runner) }}"
