@@ -41,8 +41,7 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Commit message: ${{ github.event.head_commit.message }}"
-          echo "Author: ${{ github.event.head_commit.author.name}}
-          echo "Changed files:"
+
 
             
       
