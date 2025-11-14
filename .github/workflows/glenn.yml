@@ -19,10 +19,14 @@ jobs:
         with: 
           dotnet-version: ${{ matrix.version }}
 
-      - name: Build Solution
-        run: dotnet build ShoppingList.sln
-
       - name: Print matrix values
         run: |
           echo "Running on OS: ${{ matrix.os }}"
           echo "Using .NET version ${{ matrix.version }}"
+          
+      - name: Build Solution
+        run: dotnet build ShoppingList.sln
+
+
+      - name: Running test
+        run: 
