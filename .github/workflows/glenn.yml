@@ -1,1 +1,28 @@
+name: Glenns Workflow
 
+on:    
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        version: [9.0, 8.0]
+
+    steps: 
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5.0.0
+        with: 
+          dotnet-version: ${{ matrix.version }}
+
+      - name: Build Solution
+        run: dotnet build ShoppingList.sln
+
+      - name: Print matrix values
+        run: |
+          echo "Running on OS: ${{ matrix.os }}"
+          echo "Using .NET version ${{ matrix.version }}"
