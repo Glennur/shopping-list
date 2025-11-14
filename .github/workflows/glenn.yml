@@ -41,6 +41,10 @@ jobs:
         if: github.event_name == 'push'
         run: |
           echo "Commit message: ${{ github.event.head_commit.message }}"
+          echo "Author: ${{ github.event.head_commit.author.name}}
+          echo "Changed files:"
+          git fetch --depth=1
+          git diff --name-only ${{ github.event.before }} ${{ github.event.after }}
             
       
       - name: Message when pull request
