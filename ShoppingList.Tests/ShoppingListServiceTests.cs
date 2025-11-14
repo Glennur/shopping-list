@@ -63,7 +63,7 @@ public class ShoppingListServiceTests
     }
 
     [Fact]
-    public void DeleteItem_ById_ShouldDeleteItem()
+    public void DeleteItem_ById_ShouldDeleteItem_ShouldReturnTrue()
     {
         var service = new ShoppingListService();
         var milk = service.Add("Milk", 2, "Lactose-free");

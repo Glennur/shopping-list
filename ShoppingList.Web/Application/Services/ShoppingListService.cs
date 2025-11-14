@@ -71,8 +71,28 @@ public class ShoppingListService : IShoppingListService
     public bool Delete(string id)
     {
         // TODO: Students - Implement this method
-        // Return true if deleted, false if not found
+        
+        var deleteItem = _items.FirstOrDefault(i => i.Id == id);
+        if (deleteItem != null)
+        {
+            for (int i = 0; i <= _nextIndex; i++)
+            {
+                if (_items[i] == deleteItem)
+                {
+                    for (int j = i; j <= _nextIndex - 1; j++)
+                    {
+                        _items[j] = _items[j + 1];
+                    }
+                }
+            }
+            return true;
+        }
+        
         return false;
+        
+        
+        // Return true if deleted, false if not found
+        
     }
 
     public IReadOnlyList<ShoppingItem> Search(string query)
