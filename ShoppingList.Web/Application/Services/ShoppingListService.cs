@@ -19,6 +19,7 @@ public class ShoppingListService : IShoppingListService
 
     public IReadOnlyList<ShoppingItem> GetAll()
     {
+        //return _items[0.._nextIndex];
         var list = new List<ShoppingItem>();
         for (int i = 0; i < _nextIndex; i++)
         {

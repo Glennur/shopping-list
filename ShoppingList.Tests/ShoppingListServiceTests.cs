@@ -18,7 +18,7 @@ public class ShoppingListServiceTests
         Assert.False(item.IsPurchased);
     }
     [Fact]
-    public void GetAll_ShouldReturnNullWhenArrayIsNotFull()
+    public void GetAll_ReturnAll()
     {
         var service = new ShoppingListService();
         var expected = 10;
@@ -60,6 +60,15 @@ public class ShoppingListServiceTests
         Assert.NotNull(actual);
         Assert.Equal(milk.Name, actual.Name);
         
+    }
+
+    [Fact]
+    public void DeleteItem_ById_ShouldDeleteItem()
+    {
+        var service = new ShoppingListService();
+        var milk = service.Add("Milk", 2, "Lactose-free");
+        var actual = service.Delete(milk.Id);
+        Assert.True(actual);
     }
     
     
