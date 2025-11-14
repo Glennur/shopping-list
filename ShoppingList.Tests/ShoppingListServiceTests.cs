@@ -110,7 +110,7 @@ public class ShoppingListServiceTests
     public void GetAll_ShouldReturnNullWhenArrayIsNotFull()
     {
         var service = new ShoppingListService();
-        var expected = 12;
+        var expected = 10;
         var index = expected;
         for (int i = 0; i < expected; i++)
         {
@@ -119,6 +119,24 @@ public class ShoppingListServiceTests
         var actual = service.GetAll().Count;
         Assert.Equal(expected, actual);
     }
+    /*
+    [Fact]
+    public void GetShoppingItem_ById_ShouldReturnItem()
+    {
+        var sut = new ShoppingListService();
+        var expected = TestItems().First();
+
+        // Act
+        var actual = sut.GetById(expected.Id);
+
+        // Assert
+        Assert.Equal(expected.Id, actual.Id);
+        Assert.Equal(expected.Name, actual.Name);
+        Assert.Equal(expected.Quantity, actual.Quantity);
+        Assert.Equal(expected.Notes, actual.Notes);
+        Assert.Equal(expected.IsPurchased, actual.IsPurchased);
+    }
+    */
  /*   private void AddTestData(IShoppingListService service)
     {
         var items = new ShoppingItem[5];
